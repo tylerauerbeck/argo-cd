@@ -165,7 +165,7 @@ export class ReposList extends React.Component<RouteComponentProps<any>, {connec
                                                                     action: () =>
                                                                         this.appContext.apis.navigation.goto('/applications', {
                                                                             new: JSON.stringify({spec: {source: {repoURL: repo.repo}}})
-                                                                        })
+                                                                        },{replace: true})
                                                                 },
                                                                 {
                                                                     title: 'Disconnect',

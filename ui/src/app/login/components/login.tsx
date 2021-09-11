@@ -118,14 +118,14 @@ export class Login extends React.Component<RouteComponentProps<{}>, State> {
     private async login(username: string, password: string, returnURL: string) {
         try {
             this.setState({loginError: '', loginInProgress: true});
-            this.appContext.apis.navigation.goto('.', {sso_error: null});
+            this.appContext.apis.navigation.goto('.', {sso_error: null}, {replace: true});
             await services.users.login(username, password);
             this.setState({loginInProgress: false});
             if (returnURL) {
                 const url = new URL(returnURL);
-                this.appContext.apis.navigation.goto(url.pathname + url.search);
+                this.appContext.apis.navigation.goto(url.pathname + url.search, {replace: true});
             } else {
-                this.appContext.apis.navigation.goto('/applications');
+                this.appContext.apis.navigation.goto('/applications', {replace: true});
             }
         } catch (e) {
             this.setState({loginError: e.response.body.error, loginInProgress: false});

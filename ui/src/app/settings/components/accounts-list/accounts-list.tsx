@@ -25,7 +25,7 @@ export const AccountsList = () => {
                                     </div>
                                 </div>
                                 {accounts.map(account => (
-                                    <div className='argo-table-list__row' key={account.name} onClick={() => ctx.navigation.goto(`./${account.name}`)}>
+                                    <div className='argo-table-list__row' key={account.name} onClick={() => ctx.navigation.goto(`./${account.name}`,{replace: true})}>
                                         <div className='row'>
                                             <div className='columns small-3'>{account.name}</div>
                                             <div className='columns small-3'>{(account.enabled && 'true') || 'false'}</div>

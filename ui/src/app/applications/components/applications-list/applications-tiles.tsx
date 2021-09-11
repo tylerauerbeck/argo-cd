@@ -64,7 +64,7 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
         keys: Key.ENTER,
         action: () => {
             if (selectedApp > -1) {
-                ctxh.navigation.goto(`/applications/${applications[selectedApp].metadata.name}`);
+                ctxh.navigation.goto(`/applications/${applications[selectedApp].metadata.name}`,{replace: true});
                 return true;
             }
             return false;
@@ -108,7 +108,7 @@ export const ApplicationTiles = ({applications, syncApplication, refreshApplicat
                                 className={`argo-table-list__row applications-list__entry applications-list__entry--health-${app.status.health.status} ${
                                     selectedApp === i ? 'applications-tiles__selected' : ''
                                 }`}>
-                                <div className='row' onClick={e => ctx.navigation.goto(`/applications/${app.metadata.name}`, {}, {event: e})}>
+                                <div className='row' onClick={e => ctx.navigation.goto(`/applications/${app.metadata.name}`, {}, {replace: true},{event: e})}>
                                     <div className={`columns small-12 applications-list__info qe-applications-list-${app.metadata.name}`}>
                                         <div className='applications-list__external-link'>
                                             <ApplicationURLs urls={app.status.summary.externalURLs} />

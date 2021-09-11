@@ -44,7 +44,7 @@ export const SettingsOverview: React.StatelessComponent = (props: any, context: 
         <div className='settings-overview'>
             <div className='argo-container'>
                 {settings.map(item => (
-                    <div key={item.path} className='settings-overview__redirect-panel' onClick={() => context.apis.navigation.goto(item.path)}>
+                    <div key={item.path} className='settings-overview__redirect-panel' onClick={() => context.apis.navigation.goto(item.path,{replace: true})}>
                         <div className='settings-overview__redirect-panel__content'>
                             <div className='settings-overview__redirect-panel__title'>{item.title}</div>
                             <div className='settings-overview__redirect-panel__description'>{item.description}</div>

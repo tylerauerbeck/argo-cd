@@ -231,7 +231,7 @@ const SearchBar = (props: {content: string; ctx: ContextApis; apps: models.Appli
                 </React.Fragment>
             )}
             onSelect={val => {
-                ctx.navigation.goto(`./${val}`);
+                ctx.navigation.goto(`./${val}`, {replace: true});
             }}
             onChange={e => ctx.navigation.goto('.', {search: e.target.value}, {replace: true})}
             value={content || ''}
@@ -309,7 +309,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
             namespace: newPref.namespacesFilter.join(','),
             cluster: newPref.clustersFilter.join(','),
             labels: newPref.labelsFilter.map(encodeURIComponent).join(',')
-        });
+        }, {replace: true});
     }
 
     return (
@@ -339,7 +339,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                                     className={classNames('fa fa-th', {selected: pref.appList.view === 'tiles'})}
                                                                     title='Tiles'
                                                                     onClick={() => {
-                                                                        ctx.navigation.goto('.', {view: 'tiles'});
+                                                                        ctx.navigation.goto('.', {view: 'tiles'}, {replace: true});
                                                                         services.viewPreferences.updatePreferences({appList: {...pref.appList, view: 'tiles'}});
                                                                     }}
                                                                 />
@@ -347,7 +347,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                                     className={classNames('fa fa-th-list', {selected: pref.appList.view === 'list'})}
                                                                     title='List'
                                                                     onClick={() => {
-                                                                        ctx.navigation.goto('.', {view: 'list'});
+                                                                        ctx.navigation.goto('.', {view: 'list'}, {replace: true});
                                                                         services.viewPreferences.updatePreferences({appList: {...pref.appList, view: 'list'}});
                                                                     }}
                                                                 />
@@ -355,7 +355,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                                     className={classNames('fa fa-chart-pie', {selected: pref.appList.view === 'summary'})}
                                                                     title='Summary'
                                                                     onClick={() => {
-                                                                        ctx.navigation.goto('.', {view: 'summary'});
+                                                                        ctx.navigation.goto('.', {view: 'summary'}, {replace: true});
                                                                         services.viewPreferences.updatePreferences({appList: {...pref.appList, view: 'summary'}});
                                                                     }}
                                                                 />
@@ -368,12 +368,12 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                                 title: 'New App',
                                                                 iconClassName: 'fa fa-plus',
                                                                 qeId: 'applications-list-button-new-app',
-                                                                action: () => ctx.navigation.goto('.', {new: '{}'})
+                                                                action: () => ctx.navigation.goto('.', {new: '{}'}, {replace: true})
                                                             },
                                                             {
                                                                 title: 'Sync Apps',
                                                                 iconClassName: 'fa fa-sync',
-                                                                action: () => ctx.navigation.goto('.', {syncApps: true})
+                                                                action: () => ctx.navigation.goto('.', {syncApps: true}, {replace: true})
                                                             }
                                                         ]
                                                     }
@@ -392,7 +392,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                                 <button
                                                                     qe-id='applications-list-button-create-application'
                                                                     className='argo-button argo-button--base'
-                                                                    onClick={() => ctx.navigation.goto('.', {new: JSON.stringify({})})}>
+                                                                    onClick={() => ctx.navigation.goto('.', {new: JSON.stringify({})},{replace: true})}>
                                                                     Create application
                                                                 </button>
                                                             </EmptyState>
@@ -419,19 +419,19 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                                             </EmptyState>
                                                                         )}
                                                                         data={filteredApps}
-                                                                        onPageChange={page => ctx.navigation.goto('.', {page})}>
+                                                                        onPageChange={page => ctx.navigation.goto('.', {page},{replace: true})}>
                                                                         {data =>
                                                                             (pref.view === 'tiles' && (
                                                                                 <ApplicationTiles
                                                                                     applications={data}
-                                                                                    syncApplication={appName => ctx.navigation.goto('.', {syncApp: appName})}
+                                                                                    syncApplication={appName => ctx.navigation.goto('.', {syncApp: appName},{replace: true})}
                                                                                     refreshApplication={refreshApp}
                                                                                     deleteApplication={appName => AppUtils.deleteApplication(appName, ctx)}
                                                                                 />
                                                                             )) || (
                                                                                 <ApplicationsTable
                                                                                     applications={data}
-                                                                                    syncApplication={appName => ctx.navigation.goto('.', {syncApp: appName})}
+                                                                                    syncApplication={appName => ctx.navigation.goto('.', {syncApp: appName},{replace: true})}
                                                                                     refreshApplication={refreshApp}
                                                                                     deleteApplication={appName => AppUtils.deleteApplication(appName, ctx)}
                                                                                 />
@@ -447,7 +447,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                             <ApplicationsSyncPanel
                                                                 key='syncsPanel'
                                                                 show={syncAppsInput}
-                                                                hide={() => ctx.navigation.goto('.', {syncApps: null})}
+                                                                hide={() => ctx.navigation.goto('.', {syncApps: null}, {replace: true})}
                                                                 apps={filteredApps}
                                                             />
                                                         </>
@@ -471,7 +471,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                             key='syncPanel'
                                                             application={app}
                                                             selectedResource={'all'}
-                                                            hide={() => ctx.navigation.goto('.', {syncApp: null})}
+                                                            hide={() => ctx.navigation.goto('.', {syncApp: null},{replace: true})}
                                                         />
                                                     )}
                                                 </DataLoader>
@@ -479,7 +479,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                         </ObservableQuery>
                                         <SlidingPanel
                                             isShown={!!appInput}
-                                            onClose={() => ctx.navigation.goto('.', {new: null})}
+                                            onClose={() => ctx.navigation.goto('.', {new: null}, {replace: true})}
                                             header={
                                                 <div>
                                                     <button
@@ -492,7 +492,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                     </button>{' '}
                                                     <button
                                                         qe-id='applications-list-button-cancel'
-                                                        onClick={() => ctx.navigation.goto('.', {new: null})}
+                                                        onClick={() => ctx.navigation.goto('.', {new: null}, {replace: true})}
                                                         className='argo-button argo-button--base-o'>
                                                         Cancel
                                                     </button>
@@ -507,7 +507,7 @@ export const ApplicationsList = (props: RouteComponentProps<{}>) => {
                                                         setAppCreatePending(true);
                                                         try {
                                                             await services.applications.create(app);
-                                                            ctx.navigation.goto('.', {new: null});
+                                                            ctx.navigation.goto('.', {new: null}, {replace: true});
                                                         } catch (e) {
                                                             ctx.notifications.show({
                                                                 content: <ErrorNotification title='Unable to create application' e={e} />,
